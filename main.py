@@ -13,13 +13,13 @@ def parse_arguments():
 
 def parse_config():
     settings = 'etc/settings.yml'
-    with open(settings) as f:
-        return yaml.load(f)
+    with open(settings) as fname:
+        return yaml.load(fname)
 
 def connect(host):
     return router.Router(host=host,
-                         user=config['credentials']['username'],
-                         password=config['credentials']['password'])
+                         user=configuration['credentials']['username'],
+                         password=configuration['credentials']['password'])
 
 def main():
     args = parse_arguments()
@@ -27,6 +27,7 @@ def main():
     print("Author: Tyler Christiansen <code@tylerc.me>")
     if args.device is not None:
         device = connect(host=args.device)
+        print(etree.tostring(device.get_header()))
 
     # Start an interactive shell for end users to abuse junos-eznc! :)
     var = globals()
@@ -36,5 +37,5 @@ def main():
 
 # Ugly globalness to allow users to call connect more effortlessly from
 # the shell
-config = parse_config()
+configuration = parse_config()
 main()

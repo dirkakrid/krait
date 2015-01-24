@@ -13,14 +13,6 @@ class Router(object):
         return self._user
 
     @property
-    def password(self):
-        return None
-
-    @password.setter
-    def password(self, value):
-        self._password = value
-
-    @property
     def connected(self):
         return self._connected
 
@@ -42,12 +34,9 @@ class Router(object):
                             password=self._password,
                             gather_facts=self._gather)
 
-        try:
-            connection.open()
-            self._connected = True
-            return connection
-        except Exception as e:
-            print(e)
+        connection.open()
+        self._connected = True
+        return connection
 
     def get_config(self, section=None, structure="text"):
         root = None
@@ -67,8 +56,8 @@ class Router(object):
     def get_interface(self, *args, **kwargs):
         options = kwargs.get("options")
         name = args[0] if len(args) else kwargs.get("name")
-        name = {"interface_name": name}
-        return self._connection.rpc.get_interface_information(options, **name)
+        return self._connection.rpc.get_interface_information(options,
+                                                              interface_name=name)
 
     def get_bgp(self, *args, **kwargs):
         structure = kwargs.get("format", "text")
@@ -84,9 +73,8 @@ class Router(object):
     def get_bgp_neighbor(self, *args, **kwargs):
         options = kwargs.get("options")
         neighbor = args[0] if len(args) else kwargs.get("neighbor")
-        neighbor = {"neighbor_address": neighbor}
         return self._connection.rpc.get_bgp_neighbor_information(options,
-                                                                 **neighbor)
+                                                                 neighbor_address=neighbor)
 
     def get_stateful_policies(self, *args, **kwargs):
         detail = args[0] if len(args) else kwargs.get("detail", True)
@@ -101,3 +89,7 @@ class Router(object):
             restrictions["to_zone"] = to_zone
         return self._connection.rpc.get_firewall_policies(options,
                                                           **restrictions)
+
+    def get_header(self):
+        return self._connection.rpc.get_software_information({"format": "text"},
+                                                             brief=True)
