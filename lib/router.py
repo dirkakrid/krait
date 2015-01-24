@@ -3,7 +3,7 @@ from jnpr.junos import Device
 from lxml import etree
 
 
-class Router:
+class Router(object):
     @property
     def host(self):
         return self._host
