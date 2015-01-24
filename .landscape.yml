@@ -2,5 +2,6 @@
 
 doc-warnings: true
 strictness: veryhigh
+max-line-length: 100
 ignore-patterns:
   - __init__.py
