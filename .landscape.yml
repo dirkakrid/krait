@@ -2,3 +2,5 @@
 
 doc-warnings: true
 strictness: veryhigh
+ignore-patterns:
+  - __init__.py
