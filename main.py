@@ -12,14 +12,14 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 def parse_config():
-    settings = 'etc/settings.yml'
-    with open(settings) as fname:
+    settings_file = 'etc/settings.yml'
+    with open(settings_file) as fname:
         return yaml.load(fname)
 
 def connect(host):
     return router.Router(host=host,
-                         user=configuration['credentials']['username'],
-                         password=configuration['credentials']['password'])
+                         user=settings['credentials']['username'],
+                         password=settings['credentials']['password'])
 
 def main():
     args = parse_arguments()
@@ -37,5 +37,5 @@ def main():
 
 # Ugly globalness to allow users to call connect more effortlessly from
 # the shell
-configuration = parse_config()
+settings = parse_config()
 main()
