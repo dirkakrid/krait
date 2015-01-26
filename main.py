@@ -37,5 +37,6 @@ def main():
 
 # Ugly globalness to allow users to call connect more effortlessly from
 # the shell
-settings = parse_config()
-main()
+if __name__ == '__main__':
+    settings = parse_config()
+    main()
