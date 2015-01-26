@@ -93,3 +93,11 @@ class Router(object):
     def get_header(self):
         return self._connection.rpc.get_software_information({"format": "text"},
                                                              brief=True)
+    def get_arp(self, *args, **kwargs):
+        hostname = args[0] if len(args) else kwargs.get("hostname", None)
+        structure = kwargs.get("format", "text")
+        options = {"format": structure}
+        if hostname is None:
+            return self._connection.rpc.get_arp_table_information(options)
+        return self._connection.rpc.get_arp_table_information(options,
+                                                              hostname=hostname)
