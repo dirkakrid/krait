@@ -172,6 +172,9 @@ class Router(object):
         return self._connection.rpc.get_software_information({"format": "text"},
                                                              brief=True)
     def get_arp(self, *args, **kwargs):
+        """
+        Returns ARP table.
+        """
         hostname = args[0] if len(args) else kwargs.get("hostname", None)
         structure = kwargs.get("format", "text")
         options = {"format": structure}
